@@ -1,0 +1,110 @@
+#
+# ForcedServers
+#
+# Copyright (C) 2014 Florian Stober
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+# stores the last server a player has played on in a flat file
+LastServerDB:
+  enabled: true
+  # prevent some servers from being tracked, useful for lobby-servers
+  blackList:
+  - lobby
+  - lobby2
+  useBlacklistAsWhitelist: false
+
+# offers a command for players to decide to which server they want to be connected on login
+DefaultServerCommand:
+  enabled: false
+  command: setdefaultserver
+  permission: "forcedservers.commands.default"
+  commandRemove: removedefaultserver
+  permissionRemove: "forcedservers.commands.removedefault"
+  # disallow some servers being set as default server
+  blackList:
+  - sg1
+  - sg2
+  useBlacklistAsWhitelist: false
+  msgForbidden: "This server can't be your default server."
+  msgSuccess: "Set default server to %server%."
+  msgNoDefaultServer: "You don't have a default server."
+  msgRemoved: "Removed default server."
+
+# pings all servers in your network to check whether they're online
+PingServers:
+  enabled: true
+  # interval in seconds
+  interval: 1
+  # prevent connecting players to servers which report to be full
+  dontConnectToFullServers: false
+
+# connect players to servers based on permissions
+# forceserver.survival will connect a player to a server called survival
+PermissionServers:
+  enabled: true
+
+# moves players when they join your network
+MoveOnJoin:
+  enabled: true
+  connectToDefaultServer: true
+  connectToPermissionServer: true
+  connectToLastServer: true
+
+# moves players when they connect to the lobby server
+# is executed before overflowLobby
+MoveOnLobbyConnect:
+  enabled: true
+  # main lobby server
+  mainLobby: lobby
+  # list other lobby servers here to prevent the plugin from interfering if players switch between lobby servers
+  otherLobbyServers:
+  - lobby01
+  - lobby02
+  connectToDefaultServer: false
+  connectToPermissionServer: true
+  connectToLastServer: false
+
+# move players to a safe server if they are kicked from one server
+MoveOnServerKick:
+  enabled: true
+  connectToDefaultServer: true
+  connectToPermissionServer: true
+  targetServer: lobby
+
+# move players when they connect to a specific server
+MoveOnServerConnect:
+  enabled: false
+  servers:
+    m_lobby:
+      # use blackList to prevent players to be connected to some servers
+      blackList:
+      - m_east
+      - m_north
+      - m_south
+      - m_west
+      useBlacklistAsWhitelist: true
+      connectToDefaultServer: false
+      connectToPermissionServer: false
+      connectToLastServer: false
+    b_lobby:
+      # use blackList to prevent players to be connected to some servers
+      blackList:
+      - bteam_pve
+      - bteam_pve2
+      useBlacklistAsWhitelist: true
+      connectToDefaultServer: false
+      connectToPermissionServer: false
+      connectToLastServer: false
