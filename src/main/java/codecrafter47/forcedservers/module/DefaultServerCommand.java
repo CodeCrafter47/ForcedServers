@@ -1,8 +1,9 @@
 package codecrafter47.forcedservers.module;
 
+import codecrafter47.chat.BBCodeChatParser;
+import codecrafter47.chat.ChatParser;
 import codecrafter47.forcedservers.ForcedServers;
 import codecrafter47.forcedservers.Module;
-import codecrafter47.forcedservers.chat.ChatUtil;
 import lombok.NonNull;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -48,6 +49,8 @@ public class DefaultServerCommand extends Module {
     @Setting
     String msgNoDefaultServer;
 
+    ChatParser chatParser;
+
     public DefaultServerCommand(@NonNull ForcedServers plugin) {
         super(plugin);
     }
@@ -73,6 +76,8 @@ public class DefaultServerCommand extends Module {
             }
         }
 
+        chatParser = new BBCodeChatParser();
+
         // register command
         getPlugin().getProxy().getPluginManager().registerCommand(getPlugin(), new Command(command, permission) {
             @Override
@@ -94,9 +99,9 @@ public class DefaultServerCommand extends Module {
 
                 if (!(useBlacklistAsWhitelist ^ blackList.contains(server.getInfo().getName()))) {
                     setDefaultServer(player, server.getInfo().getName());
-                    player.sendMessage(ChatUtil.parseString(msgSuccess.replaceAll("%server%", server.getInfo().getName())));
+                    player.sendMessage(chatParser.parse(msgSuccess.replaceAll("%server%", server.getInfo().getName())));
                 } else {
-                    player.sendMessage(ChatUtil.parseString(msgForbidden.replaceAll("%server%", server.getInfo().getName())));
+                    player.sendMessage(chatParser.parse(msgForbidden.replaceAll("%server%", server.getInfo().getName())));
                 }
             }
         });
@@ -113,9 +118,9 @@ public class DefaultServerCommand extends Module {
 
                 if(getDefaultServer(player) != null) {
                     removeDefaultServer(player);
-                    player.sendMessage(ChatUtil.parseString(msgRemoved));
+                    player.sendMessage(chatParser.parse(msgRemoved));
                 } else {
-                    player.sendMessage(ChatUtil.parseString(msgNoDefaultServer));
+                    player.sendMessage(chatParser.parse(msgNoDefaultServer));
                 }
             }
         });

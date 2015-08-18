@@ -2,7 +2,7 @@ package codecrafter47.forcedservers.module;
 
 import codecrafter47.forcedservers.ForcedServers;
 import codecrafter47.forcedservers.Module;
-import codecrafter47.forcedservers.PingTask;
+import codecrafter47.util.bungee.PingTask;
 import lombok.NonNull;
 import net.md_5.bungee.api.config.ServerInfo;
 
@@ -36,7 +36,7 @@ public class PingServers extends Module{
     }
 
     private void addServer(@NonNull ServerInfo server) {
-        PingTask task = new PingTask(getPlugin(), server);
+        PingTask task = new PingTask(server);
         serverState.put(server.getName(), task);
         getPlugin().getProxy().getScheduler().schedule(getPlugin(), task, interval,
                 interval, TimeUnit.SECONDS);
