@@ -1,7 +1,7 @@
 package codecrafter47.forcedservers.module;
 
-import codecrafter47.chat.BBCodeChatParser;
-import codecrafter47.chat.ChatParser;
+import codecrafter47.util.chat.BBCodeChatParser;
+import codecrafter47.util.chat.ChatParser;
 import codecrafter47.forcedservers.ForcedServers;
 import codecrafter47.forcedservers.Module;
 import lombok.NonNull;
